@@ -1,5 +1,6 @@
-### This Python code generates synthetic data for a logistics scenario involving 
-### orders, customers, products, and delivery details. 
+### This Python code is only with the purpose of generates synthetic data for a fake logistics scenario 
+### involving orders, customers, products, and delivery details. 
+### Nelson Aguilera
 
 import csv
 import random
