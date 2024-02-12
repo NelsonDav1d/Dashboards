@@ -1,0 +1,164 @@
+### This Python code generates synthetic data for a logistics scenario involving 
+### orders, customers, products, and delivery details. 
+
+import csv
+import random
+from datetime import datetime, timedelta
+import os
+
+# generate_orders: This function generates synthetic data for orders. 
+# It takes parameters such as the number of orders (num_orders), 
+# the number of customers (num_customers), 
+# and the start and end dates for the orders.
+# It iterates over the range of num_orders, randomly selects a customer for each order, 
+# generates a random order date within the specified range, and assigns a total amount for the order.
+
+def generate_orders(num_orders, num_customers, start_date, end_date):
+    orders = []
+    for i in range(num_orders):
+        order_id = i + 1
+        # Randomly select a customer for the order
+        if random.random() < num_customers / (num_customers + 10):  
+            customer_id = random.randint(1, num_customers)
+        else:
+            continue  # Skip this iteration if the customer has no orders
+        order_date = random_date(start_date, end_date)
+        total_amount = round(random.uniform(10.0, 500.0), 2)
+        orders.append([order_id, customer_id, order_date, total_amount])
+    return orders
+
+
+# generate_customers: This function generates synthetic data for customers. 
+# It takes the number of customers (num_customers) as a parameter 
+# and creates customer records with unique IDs, store names, email addresses, phone numbers, addresses, cities, and countries.
+
+def generate_customers(num_customers):
+    customers = []
+    store_names = ['QuickSavings', 'FreshMart', 'UrbanEats', 'TastyBites', 'HealthyHarvest',
+                   'GourmetGrocer', 'PrimePantry', 'DailyDelights', 'MegaMunchies', 'FlavorFusion',
+                   'SimplySupplies', 'SavvyShopper', 'NaturesNook', 'MarketMagic', 'EpicureEmporium',
+                   'WholesomeWay', 'CulinaryCorner', 'SavorySelects', 'FoodieFrenzy', 'QualityQuarters']
+    for i in range(num_customers):
+        customer_id = i + 1
+        # Randomly select a unique store-related name
+        store_name = random.choice(store_names)
+        # Generate email address based on store name
+        email = f"{store_name.lower().replace(' ', '')}@example.com"
+        # Generate a 10-digit phone number
+        phone = ''.join(random.sample("1234567890", 10))
+        address = f"Address {customer_id}"
+        # Update city to a random city in Canada
+        city = random.choice(['Toronto', 'Vancouver', 'Montreal', 'Calgary', 'Ottawa'])
+        country = "Canada"
+        customers.append([customer_id, store_name, email, phone, address, city, country])
+    return customers
+
+
+# generate_products: This function generates synthetic data for products. 
+# It takes the number of products (num_products) as a parameter 
+# and creates product records with unique IDs, names, categories, prices, and descriptions
+
+def generate_products(num_products):
+    products = []
+    categories = ['daily', 'snacks', 'beverages']
+    for i in range(num_products):
+        product_id = i + 1
+        category = random.choice(categories)
+        if category == 'daily':
+            product_name = random.choice(['Soap', 'Toothpaste', 'Shampoo', 'Toilet Paper', 'Deodorant', 'Razor', 'Conditioner'])
+            description = f"A daily essential item: {product_name}"
+        elif category == 'snacks':
+            product_name = random.choice(['Baked goods', 'Cereals', 'Edible plants', 'Edible fungi', 'Edible nuts and seeds', 'Legumes', 'Meat'])
+            description = f"A delicious {product_name} for your snacks"
+        else:
+            product_name = random.choice(['Coffee', 'Tea', 'Soft Drinks', 'Juices', 'Energy Drinks', 'Alcoholic Beverages', 'Water', 'Sports Drinks'])
+            description = f"A refreshing {product_name} to quench your thirst"
+        price = round(random.uniform(1.0, 50.0), 2)
+        products.append([product_id, product_name, category, price, description])
+    return products
+
+# generate_delivery_details: This function generates synthetic data for delivery details associated with each order. 
+# It takes a list of orders as input and generates delivery details for each order. 
+# For each order, it generates a random delivery date (equal to or later than the order date), 
+# assigns product IDs, quantities, delivery statuses, and delivery notes
+
+def generate_delivery_details(orders):
+    delivery_details = []
+    delivery_id = 1
+    for order in orders:
+        order_id = order[0]
+        order_date = order[2]
+        # Generate a random delivery date equal to or later than the order date for this order
+        delivery_date = max(order_date, order_date + timedelta(days=random.randint(0, 30)))
+        product_ids = []  # Store product IDs for each order
+        delivery_statuses = []
+        for product_id in range(1, random.randint(1, 5) + 1):  # Assume each order contains 1 to 5 products
+            product_ids.append(product_id)
+            delivered_quantity = random.randint(1, 10)
+            delivery_status = random.choice(['delivered', 'canceled'])
+            delivery_statuses.append(delivery_status)
+            delivery_notes = f"Delivery {delivery_id} notes"
+            delivery_details.append([delivery_id, order_id, delivery_date, product_id, delivered_quantity, delivery_status, delivery_notes])
+            delivery_id += 1
+        order_status = determine_order_status(delivery_statuses)
+        order.append(order_status)  # Add order status to the order data
+        order.append(product_ids)  # Add product IDs to the order data
+    return delivery_details, orders
+
+
+# determine_order_status: This function determines the overall order status based on the delivery statuses 
+# of the associated delivery details. 
+# If at least one item is delivered, the order status is set to "delivered". 
+# If all items are canceled, the order status is set to "canceled". 
+# Otherwise, the order status is set to "delivered".
+
+def determine_order_status(delivery_statuses):
+    if 'delivered' in delivery_statuses:
+        return 'delivered'
+    elif all(status == 'canceled' for status in delivery_statuses):
+        return 'canceled'
+    else:
+        return 'delivered'  # If at least one item delivered, consider the whole order as delivered
+
+# Generate synthetic data
+num_orders = 100
+num_customers = 30  # Updated to 30 customers
+num_products = 20
+
+start_date = datetime(2023, 1, 1)
+end_date = datetime(2023, 7, 31)
+
+def random_date(start, end):
+    return start + timedelta(seconds=random.randint(0, int((end - start).total_seconds())))
+
+orders_data = generate_orders(num_orders, num_customers, start_date, end_date)
+customers_data = generate_customers(num_customers)
+products_data = generate_products(num_products)
+delivery_details_data, orders_data = generate_delivery_details(orders_data)
+
+# Create directory if it doesn't exist
+directory = 'C:/TestData/Logistic'
+if not os.path.exists(directory):
+    os.makedirs(directory)
+
+# writes the generated data to CSV files, and saves them in a specified directory
+
+def write_to_csv(data, filename, header):
+    with open(os.path.join(directory, filename), 'w', newline='') as csvfile:
+        writer = csv.writer(csvfile)
+        writer.writerow(header)
+        if filename == 'orders.csv':
+            for row in data:
+                writer.writerow(row[:-1])  # Write all columns except the last one (order_status)
+        else:
+            writer.writerows(data)
+
+# Write orders with order status
+write_to_csv(orders_data, 'orders.csv', ['order_id', 'customer_id', 'order_date', 'total_amount', 'order_status'])
+
+# Write customers, products, and delivery details
+write_to_csv(customers_data, 'customers.csv', ['customer_id', 'customer_name', 'email', 'phone', 'address', 'city', 'country'])
+write_to_csv(products_data, 'products.csv', ['product_id', 'product_name', 'category', 'price', 'description'])
+write_to_csv(delivery_details_data, 'delivery_details.csv', ['delivery_id', 'order_id', 'delivery_date', 'product_id', 'delivered_quantity', 'delivery_status', 'delivery_notes'])
+
+print("CSV files generated successfully!")
