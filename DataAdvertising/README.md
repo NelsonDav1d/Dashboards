@@ -51,20 +51,24 @@ Average Time of Session =
         'DataTest',
         'DataTest'[End Time of Session] - 'DataTest'[Start Time of Session]
     )
+```
 
+```DAX
 Click Through Rate = 
     DIVIDE(SUM('DataTest'[Number of Clicks]), SUM('DataTest'[Impressions]), 0)
-
+```
+```DAX
 Cost per Click = 
     DIVIDE(SUM(DataTest[Total Cost]), SUM(DataTest[Number of Clicks]), 0)
-
+```
+```DAX
 Total Cost Campaign = 
     SUM(DataTest[Total Cost])
-
+```
 Columns:
 Country: Add a new column named country with the value "Canada".
 Province: Manually add a new column named province based on city names.
-
+```DAX
 Location Table:
 Location = 
     SUMMARIZE(
@@ -72,8 +76,9 @@ Location =
         'DataTest'[Country],
         'DataTest'[Geographic Location]
     )
-
+```
 Add another column for location named Province.
+```DAX
 Province = 
     SWITCH(
         'Location'[Geographic Location],
@@ -89,6 +94,5 @@ Province =
         "Winnipeg", "Manitoba",
         BLANK()
     )
-
-
+```
 Feel free to adjust the script or measures to better fit your needs
