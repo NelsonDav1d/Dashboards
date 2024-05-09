@@ -1,9 +1,11 @@
-# Dashboards Test
+# Dashboards personal project
 
 ## Introduction
 
 This repository contains resources for creating dynamic dashboards for a synthetic logistics scenario. 
 The primary components include Python code for generating synthetic data and a Power BI file demonstrating the visualization capabilities using the generated data.
+This is my personal project. Feel free to utilize it for practice purposes.
+
 
 ## Folder Structure
 
@@ -30,4 +32,7 @@ To get started, follow these steps:
 
 ## Contributions
 
-Contributions to enhance or expand the functionality of this repository are welcome. Please feel free to submit issues or pull requests with your suggestions or improvements.
+Contributions to enhance or expand the functionality of this repository are welcome. Please feel free to submit issues or pull requests with your suggestions or improvements. 
+
+Nelson Aguilera.
+email: nelson.aguilera.guevara@gmail.com 
