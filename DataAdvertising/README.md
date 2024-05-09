@@ -2,7 +2,11 @@
 
 ## Introduction
 
+This repository contains resources for creating a dashboard for a synthetic advertising scenario.
+
 The script in Python folder generates synthetic advertising data and stores it in a CSV file. The data simulates a marketing campaign scenario with randomly generated data.
+
+Feel free to utilize it for practice purposes.
 
 ## Usage
 
@@ -95,4 +99,7 @@ Province =
         BLANK()
     )
 ```
-Feel free to adjust the script or measures to better fit your needs
+Feel free to adjust the script or measures to better fit your needs.
+
+Nelson Aguilera.
+email: nelson.aguilera.guevara@gmail.com
